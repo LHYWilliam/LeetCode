@@ -17,21 +17,22 @@ class Solution:
         from queue import Queue
 
         nodes = Queue()
-        nodes.put({"node": root, "sum": root.val})
+        if root:
+            nodes.put((root, root.val))
 
         flag = False
         while not nodes.empty():
-            now = nodes.get()
-            node, sum = now["node"], now["sum"]
+            node, sum = nodes.get()
 
-            if node and not node.left and not node.right and sum == targetSum:
-                flag = True
-                break
+            if node:
+                if not node.left and not node.right and sum == targetSum:
+                    flag = True
+                    break
 
-            if node and node.left:
-                nodes.put({"node": node.left, "sum": sum + root.left.val})
-            if node and node.right:
-                nodes.put({"node": node.right, "sum": sum + root.right.val})
+                if node.left:
+                    nodes.put((node.left, sum + node.left.val))
+                if node.right:
+                    nodes.put((node.right, sum + node.right.val))
 
         return flag
 
